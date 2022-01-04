@@ -1,7 +1,7 @@
 package com.xiaowuyaya.bstdormitorycms.service;
 
+import com.xiaowuyaya.bstdormitorycms.entity.DormitoryInfo;
 import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
-import org.springframework.stereotype.Service;
 
 
 public interface DormitoryInfoService {
@@ -13,5 +13,13 @@ public interface DormitoryInfoService {
      * @return
      */
     JsonResult getDormitoryInfoListPage(Integer pages, Integer limit);
+
+    JsonResult getDormitoryInfoByBuildingNoAndFloor(String buildingNo, Integer floorNo);
+
+    JsonResult updateDormitoryInfo(DormitoryInfo dormitoryInfo);
+
+    JsonResult postDormitoryStatistics(String buildingName, String floor, Integer roomNo);
+
+    JsonResult createDormitoryInfo(DormitoryInfo dormitoryInfo);
 
 }

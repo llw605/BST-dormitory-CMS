@@ -8,4 +8,5 @@ public interface BuildingService {
 
     JsonResult getBuildingsByUniversityId(Integer universityId);
 
+    JsonResult getBuildingsByUniversityIdAndName(Integer universityId, String name);
 }

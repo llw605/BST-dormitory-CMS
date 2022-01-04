@@ -26,5 +26,10 @@ public class BuildingController {
         return buildingService.getBuildingsByUniversityId(universityId);
     }
 
+    @GetMapping("/getBuildingsByUniversityIdAndName")
+    public JsonResult getBuildingsByUniversityIdAndName(Integer universityId, String name){
+        return buildingService.getBuildingsByUniversityIdAndName(universityId, name);
+    }
+
 
 }

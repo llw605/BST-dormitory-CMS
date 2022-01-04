@@ -23,4 +23,14 @@ public class BuildingServiceImpl implements BuildingService {
         List<Building> buildings = buildingMapper.selectList(queryWrapper);
         return JsonResult.success(buildings);
     }
+
+    @Override
+    public JsonResult getBuildingsByUniversityIdAndName(Integer universityId, String name) {
+        QueryWrapper<Building> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("university_id",universityId)
+                .like("building_name",name);
+
+        List<Building> buildings = buildingMapper.selectList(queryWrapper);
+        return JsonResult.success(buildings);
+    }
 }

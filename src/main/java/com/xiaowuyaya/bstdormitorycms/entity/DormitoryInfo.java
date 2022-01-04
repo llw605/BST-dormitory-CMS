@@ -31,6 +31,11 @@ public class DormitoryInfo{
      * 房号
      */
     private Integer roomNo;
+
+    /**
+     * 加粉人数
+     */
+    private Integer fansNo;
     /**
      * 性别 1男 0女 -1未知
      */
@@ -47,6 +52,11 @@ public class DormitoryInfo{
      * 到访人员
      */
     private String visitors;
+
+    /**
+     * 表单填写人数统计
+     */
+    private Integer dorStatistics;
     /**
      * 备注信息
      */
