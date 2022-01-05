@@ -1,14 +1,11 @@
 package com.xiaowuyaya.bstdormitorycms.service;
 
-import com.xiaowuyaya.bstdormitorycms.entity.Annotation;
-import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
-
-import java.util.Date;
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 
 public interface AnnotationService {
 
-    JsonResult addAnnotation(String content);
+    ResponseResult addAnnotation(String content);
 
-    JsonResult getAnnotationList();
+    ResponseResult getAnnotationList();
 
 }

@@ -6,8 +6,9 @@ import com.xiaowuyaya.bstdormitorycms.entity.Building;
 import com.xiaowuyaya.bstdormitorycms.entity.DormitoryInfo;
 import com.xiaowuyaya.bstdormitorycms.mapper.BuildingMapper;
 import com.xiaowuyaya.bstdormitorycms.mapper.DormitoryInfoMapper;
+import com.xiaowuyaya.bstdormitorycms.mapper.UniversityMapper;
 import com.xiaowuyaya.bstdormitorycms.service.DormitoryInfoService;
-import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,11 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
     @Autowired
     private BuildingMapper buildingMapper;
 
+    @Autowired
+    private UniversityMapper universityMapper;
+
     @Override
-    public JsonResult getDormitoryInfoListPage(Integer pages, Integer limit) {
+    public ResponseResult getDormitoryInfoListPage(Integer pages, Integer limit) {
 
         List<Map<String, Object>> resList = new ArrayList<Map<String, Object>>();
 
@@ -52,11 +56,11 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
         resMap.put("total", dormitoryInfoMapper.selectCount(null));
         resMap.put("items", resList);
 
-        return JsonResult.success(resMap);
+        return ResponseResult.success(resMap);
     }
 
     @Override
-    public JsonResult getDormitoryInfoByBuildingNoAndFloor(String buildingNo, Integer floorNo) {
+    public ResponseResult getDormitoryInfoByBuildingNoAndFloor(String buildingNo, Integer floorNo) {
 
         List<Object> list = new ArrayList<>();
 
@@ -88,27 +92,58 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
         resMap.put("total", list.size());
         resMap.put("items", list);
 
-        return JsonResult.success(resMap);
+        return ResponseResult.success(resMap);
 
     }
 
     @Override
-    public JsonResult updateDormitoryInfo(DormitoryInfo dormitoryInfo) {
+    public ResponseResult getDormitoryStatisticsByBuildingNoAndFloor(String buildingNo, Integer FloorNo) {
+
+        List<Object> list = new ArrayList<>();
+
+        QueryWrapper<DormitoryInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("building_id",buildingNo)
+                .eq("floor",FloorNo + "层")
+                .isNotNull("dor_statistics")
+                .gt("dor_statistics",0);
+
+        List<DormitoryInfo> dormitoryInfos = dormitoryInfoMapper.selectList(queryWrapper);
+        for (DormitoryInfo dormitoryInfo : dormitoryInfos) {
+            Map<String, Object> data = new HashMap<>();
+            Building building = buildingMapper.selectById(dormitoryInfo.getBuildingId());
+            data.put("university",universityMapper.selectById(building.getUniversityId()).getUniversityName());
+            data.put("buildingName",building.getBuildingName());
+            data.put("floor", dormitoryInfo.getFloor());
+            data.put("roomNo", dormitoryInfo.getRoomNo());
+            data.put("counts", dormitoryInfo.getDorStatistics());
+
+            list.add(data);
+        }
+
+        Map<String, Object> resMap = new HashMap<String, Object>();
+        resMap.put("total", dormitoryInfoMapper.selectCount(queryWrapper));
+        resMap.put("items", list);
+
+        return ResponseResult.success(resMap);
+    }
+
+    @Override
+    public ResponseResult updateDormitoryInfo(DormitoryInfo dormitoryInfo) {
         int i = dormitoryInfoMapper.updateById(dormitoryInfo);
         if (i != 1){
-            return JsonResult.failed(i);
+            return ResponseResult.fail(String.valueOf(i));
         }
-        return JsonResult.success(i);
+        return ResponseResult.success(String.valueOf(i));
     }
 
     @Override
-    public JsonResult postDormitoryStatistics(String buildingName, String floor, Integer roomNo) {
+    public ResponseResult postDormitoryStatistics(String buildingName, String floor, Integer roomNo) {
 //        QueryWrapper<Building> buildingQuery = new QueryWrapper<>();
 //        buildingQuery.eq("building_name", buildingName);
 
         QueryWrapper<DormitoryInfo> dormitoryInfoQuery = new QueryWrapper<>();
         dormitoryInfoQuery.eq("building_id", buildingName)
-                .eq("floor", floor)
+                .like("floor", floor)
                 .eq("room_no", roomNo);
 
         DormitoryInfo dormitoryInfo = dormitoryInfoMapper.selectOne(dormitoryInfoQuery);
@@ -124,20 +159,52 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
         int i = dormitoryInfoMapper.updateById(dormitoryInfo);
 
         if (i != 1){
-            return JsonResult.failed(i);
+            return ResponseResult.fail(String.valueOf(i));
         }
 
         //TODO: 提交成功需要生成兑奖码返回
-        return JsonResult.success(i);
+        return ResponseResult.success(UUID.randomUUID());
     }
 
     @Override
-    public JsonResult createDormitoryInfo(DormitoryInfo dormitoryInfo) {
+    public ResponseResult createDormitoryInfo(DormitoryInfo dormitoryInfo) {
         int insert = dormitoryInfoMapper.insert(dormitoryInfo);
         if (insert != 1){
-            return JsonResult.failed(insert);
+            return ResponseResult.fail(String.valueOf(insert));
         }
-        return JsonResult.success(insert);
+        return ResponseResult.success(insert);
+    }
+
+    @Override
+    public ResponseResult getDormitoryStatistics(Integer pages, Integer limit) {
+
+        Page<DormitoryInfo> page = new Page<>(pages,limit);
+
+        QueryWrapper<DormitoryInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNotNull("dor_statistics")
+                .gt("dor_statistics",0);
+
+        dormitoryInfoMapper.selectPage(page,queryWrapper);
+
+        List<DormitoryInfo> records = page.getRecords();
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (DormitoryInfo record : records) {
+            Map<String, Object> data = new HashMap<>();
+            Building building = buildingMapper.selectById(record.getBuildingId());
+            data.put("university",universityMapper.selectById(building.getUniversityId()).getUniversityName());
+            data.put("buildingName",building.getBuildingName());
+            data.put("floor", record.getFloor());
+            data.put("roomNo", record.getRoomNo());
+            data.put("counts", record.getDorStatistics());
+            list.add(data);
+        }
+
+        Map<String, Object> resMap = new HashMap<String, Object>();
+        resMap.put("total", dormitoryInfoMapper.selectCount(queryWrapper));
+        resMap.put("items", list);
+
+        return ResponseResult.success(resMap);
     }
 
 

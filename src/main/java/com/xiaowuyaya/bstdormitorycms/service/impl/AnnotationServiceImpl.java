@@ -3,15 +3,14 @@ package com.xiaowuyaya.bstdormitorycms.service.impl;
 import com.xiaowuyaya.bstdormitorycms.entity.Annotation;
 import com.xiaowuyaya.bstdormitorycms.mapper.AnnotationMapper;
 import com.xiaowuyaya.bstdormitorycms.service.AnnotationService;
-import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
+import com.xiaowuyaya.bstdormitorycms.util.DateUtil;
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.util.*;
 
 /**
  * @author liaol
@@ -22,24 +21,26 @@ public class AnnotationServiceImpl implements AnnotationService {
     @Autowired
     private AnnotationMapper annotationMapper;
 
+    @SneakyThrows
     @Override
-    public JsonResult addAnnotation( String content) {
+    public ResponseResult addAnnotation(String content) {
 
-        Date dateTime = new Date();
         Annotation annotation = new Annotation();
-        annotation.setUploadTime(dateTime);
+
+        annotation.setUploadTime(new java.sql.Date(System.currentTimeMillis()));
         annotation.setContent(content);
 
         int res = annotationMapper.insert(annotation);
+
         if (res != 1){
-            return JsonResult.failed("服务器异常");
+            return ResponseResult.fail("服务器异常");
         }
-        return JsonResult.success("插入成功");
+        return ResponseResult.success("success");
     }
 
     @Override
-    public JsonResult getAnnotationList() {
+    public ResponseResult getAnnotationList() {
         List<Annotation> annotations = annotationMapper.selectList(null);
-        return JsonResult.success(annotations);
+        return ResponseResult.success(annotations);
     }
 }

@@ -1,12 +1,11 @@
 package com.xiaowuyaya.bstdormitorycms.service;
 
-import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
-import org.springframework.stereotype.Service;
 
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 
 public interface BuildingService {
 
-    JsonResult getBuildingsByUniversityId(Integer universityId);
+    ResponseResult getBuildingsByUniversityId(Integer universityId);
 
-    JsonResult getBuildingsByUniversityIdAndName(Integer universityId, String name);
+    ResponseResult getBuildingsByUniversityIdAndName(Integer universityId, String name);
 }

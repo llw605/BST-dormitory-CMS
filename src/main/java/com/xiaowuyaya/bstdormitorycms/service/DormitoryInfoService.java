@@ -1,7 +1,7 @@
 package com.xiaowuyaya.bstdormitorycms.service;
 
 import com.xiaowuyaya.bstdormitorycms.entity.DormitoryInfo;
-import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 
 
 public interface DormitoryInfoService {
@@ -12,14 +12,18 @@ public interface DormitoryInfoService {
      * @param limit
      * @return
      */
-    JsonResult getDormitoryInfoListPage(Integer pages, Integer limit);
+    ResponseResult getDormitoryInfoListPage(Integer pages, Integer limit);
 
-    JsonResult getDormitoryInfoByBuildingNoAndFloor(String buildingNo, Integer floorNo);
+    ResponseResult getDormitoryInfoByBuildingNoAndFloor(String buildingNo, Integer floorNo);
 
-    JsonResult updateDormitoryInfo(DormitoryInfo dormitoryInfo);
+    ResponseResult getDormitoryStatisticsByBuildingNoAndFloor(String buildingNo, Integer FloorNo);
 
-    JsonResult postDormitoryStatistics(String buildingName, String floor, Integer roomNo);
+    ResponseResult updateDormitoryInfo(DormitoryInfo dormitoryInfo);
 
-    JsonResult createDormitoryInfo(DormitoryInfo dormitoryInfo);
+    ResponseResult postDormitoryStatistics(String buildingName, String floor, Integer roomNo);
+
+    ResponseResult createDormitoryInfo(DormitoryInfo dormitoryInfo);
+
+    ResponseResult getDormitoryStatistics(Integer pages, Integer limit);
 
 }

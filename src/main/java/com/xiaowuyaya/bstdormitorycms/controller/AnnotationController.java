@@ -1,12 +1,9 @@
 package com.xiaowuyaya.bstdormitorycms.controller;
 
-import com.xiaowuyaya.bstdormitorycms.entity.Annotation;
 import com.xiaowuyaya.bstdormitorycms.service.AnnotationService;
-import com.xiaowuyaya.bstdormitorycms.util.JsonResult;
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 
 /**
@@ -22,12 +19,12 @@ public class AnnotationController {
     private AnnotationService annotationService;
 
     @PostMapping("/addNewAnnotation")
-    public JsonResult addNewAnnotation(@RequestParam("content")String content){
+    public ResponseResult addNewAnnotation(@RequestParam("content")String content){
         return annotationService.addAnnotation(content);
     }
 
     @GetMapping("/getAnnotationList")
-    public JsonResult getAnnotationList(){
+    public ResponseResult getAnnotationList(){
         return annotationService.getAnnotationList();
     }
 
