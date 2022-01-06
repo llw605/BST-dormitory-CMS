@@ -42,10 +42,12 @@ public class User implements Serializable {
      * 账号状态（0正常 1停用）
      */
     private String status;
+
     /**
-     * 邮箱
+     * 头像地址
      */
-    private String email;
+    private String avatar;
+
     /**
      * 手机号
      */
@@ -55,22 +57,13 @@ public class User implements Serializable {
      */
     private String sex;
     /**
-     * 用户类型（0管理员，1普通用户）
+     * 用户权限 外键
      */
-    private String userType;
+    private Integer userRole;
     /**
      * 创建时间
      */
     private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-    /**
-     * 删除标志（0代表未删除，1代表已删除）
-     */
-    private Integer delFlag;
 
 
 }
-

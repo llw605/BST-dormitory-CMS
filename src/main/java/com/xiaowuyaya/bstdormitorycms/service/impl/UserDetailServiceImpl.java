@@ -25,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         User user = userMapper.selectOne(wrapper);
 
         if (Objects.isNull(user)){
-            throw new RuntimeException("用户名或密码错误");
+            throw new RuntimeException("用户名不存在");
         }
 
         // TODO 根据用户查询权限信息
@@ -33,4 +33,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         // 封装成UserDetails对象返回
         return new LoginUser(user);
     }
+
+
 }

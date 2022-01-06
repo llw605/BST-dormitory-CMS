@@ -19,7 +19,11 @@ class BstDormitoryCmsApplicationTests {
     @Test
     void testPasswordEncoder() {
         String admin = passwordEncoder.encode("admin");
+        String test = passwordEncoder.encode("test");
+        String xiaowuyaya = passwordEncoder.encode("xiaowuyaya");
         System.out.println(admin);
+        System.out.println(test);
+        System.out.println(xiaowuyaya);
     }
 
     @Autowired

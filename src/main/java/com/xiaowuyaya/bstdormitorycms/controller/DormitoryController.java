@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @author xiaowuyaya
  */
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RequestMapping(value = "/dormitory")
 public class DormitoryController {
 

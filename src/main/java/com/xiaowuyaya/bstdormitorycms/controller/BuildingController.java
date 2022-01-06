@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiaowuyaya
  */
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RequestMapping("/building")
 public class BuildingController {
 
