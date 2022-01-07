@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * @author xiaowuyaya
  */
 @RestController
-//@CrossOrigin("*")
 @RequestMapping("/annotation")
 public class AnnotationController {
 

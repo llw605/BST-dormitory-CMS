@@ -27,7 +27,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (Objects.isNull(user)){
             throw new RuntimeException("用户名不存在");
         }
-
         // TODO 根据用户查询权限信息
 
         // 封装成UserDetails对象返回

@@ -20,8 +20,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+/**
+ * Security相关配置
+ */
 @EnableWebSecurity
-//@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
