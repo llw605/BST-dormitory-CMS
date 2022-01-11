@@ -12,6 +12,7 @@ import com.xiaowuyaya.bstdormitorycms.util.JwtUtil;
 import com.xiaowuyaya.bstdormitorycms.util.RedisCache;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -44,8 +46,9 @@ public class AuthServiceImpl implements AuthService {
 
         //如果认证没通过，给出对应的提示
         if(Objects.isNull(authenticate)){
-            throw new RuntimeException("登录失败");
-//            return ResponseResult.fail("登入失败");
+//            throw new RuntimeException("登录失败");
+            log.warn("登入失败，未找到Authentication");
+            return ResponseResult.fail("登入失败");
         }
         //如果认证通过了，使用userid生成一个jwt jwt存入ResponseResult返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
@@ -71,6 +74,7 @@ public class AuthServiceImpl implements AuthService {
         String userName = loginUser.getUser().getUserName();
         //删除redis中的值
         redisCache.deleteObject("login-"+userName);
+        log.info("删除redis中的缓存");
         return new ResponseResult(20000,"注销成功");
     }
 
@@ -98,6 +102,13 @@ public class AuthServiceImpl implements AuthService {
         List<String> roles = new ArrayList<>();
         roles.add(userRoleMapper.selectOne(new QueryWrapper<UserRole>().eq("id",user.getUserRole())).getRole());
         jsonObject.put("roles", roles);
+
+        // 路由
+        /**
+         * 接下来即将是一段非常长的代码，主要都是在进行JSON的格式化处理，后期有机会修改的时候再来修改。
+         */
+
+
         return ResponseResult.success(jsonObject);
 
     }

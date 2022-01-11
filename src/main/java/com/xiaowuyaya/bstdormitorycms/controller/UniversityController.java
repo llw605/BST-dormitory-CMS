@@ -1,6 +1,11 @@
 package com.xiaowuyaya.bstdormitorycms.controller;
 
+import com.xiaowuyaya.bstdormitorycms.service.UniversityService;
+import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -8,5 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiaowuyaya
  */
 @RestController
+@RequestMapping("/university")
 public class UniversityController {
+
+    @Autowired
+    private UniversityService universityService;
+
+
+    @GetMapping("/getUniversityList")
+    public ResponseResult getUniversityList(){
+        return universityService.getUniversityList();
+    }
+
 }

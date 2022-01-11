@@ -1,5 +1,6 @@
 package com.xiaowuyaya.bstdormitorycms.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaowuyaya.bstdormitorycms.entity.Building;
@@ -27,12 +28,25 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
     private UniversityMapper universityMapper;
 
     @Override
-    public ResponseResult getDormitoryInfoListPage(Integer pages, Integer limit) {
+    public ResponseResult getDormitoryInfoListPage(Integer pages, Integer limit, Integer universityId) {
+
+        List<Integer> buildIds = new ArrayList<>();
+        for (Building university : buildingMapper.selectList(new QueryWrapper<Building>().eq("university_id", universityId))) {
+            buildIds.add(university.getBuildingId());
+        }
+
+        if (buildIds.size() == 0){
+            return ResponseResult.success("无数据",buildIds);
+        }
+
 
         List<Map<String, Object>> resList = new ArrayList<Map<String, Object>>();
-
         Page<DormitoryInfo> page = new Page<>(pages,limit);
-        dormitoryInfoMapper.selectPage(page,null);
+
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.in("building_id", buildIds);
+
+        dormitoryInfoMapper.selectPage(page,queryWrapper);
         List<DormitoryInfo> records = page.getRecords();
         for (DormitoryInfo record : records) {
             Map<String, Object> data = new HashMap<String, Object>();
@@ -176,13 +190,22 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
     }
 
     @Override
-    public ResponseResult getDormitoryStatistics(Integer pages, Integer limit) {
+    public ResponseResult getDormitoryStatistics(Integer pages, Integer limit, Integer universityId) {
+
+        List<Integer> buildIds = new ArrayList<>();
+        for (Building university : buildingMapper.selectList(new QueryWrapper<Building>().eq("university_id", universityId))) {
+            buildIds.add(university.getBuildingId());
+        }
+
+        if (buildIds.size() == 0){
+            return ResponseResult.success("无数据",buildIds);
+        }
 
         Page<DormitoryInfo> page = new Page<>(pages,limit);
-
         QueryWrapper<DormitoryInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.isNotNull("dor_statistics")
-                .gt("dor_statistics",0);
+                .gt("dor_statistics",0)
+                .in("building_id", buildIds);
 
         dormitoryInfoMapper.selectPage(page,queryWrapper);
 
@@ -205,6 +228,28 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
         resMap.put("items", list);
 
         return ResponseResult.success(resMap);
+    }
+
+    @Override
+    public ResponseResult getInputFormCount(Integer buidingFormNum, Integer floor) {
+
+        QueryWrapper<DormitoryInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNotNull("dor_statistics")
+                .gt("dor_statistics",0);
+        if (floor == null){
+            queryWrapper.eq("building_id", buidingFormNum);
+        }else {
+            queryWrapper.eq("building_id", buidingFormNum)
+                    .like("floor", floor);
+        }
+        List<DormitoryInfo> dormitoryInfos = dormitoryInfoMapper.selectList(queryWrapper);
+        int counts = 0;
+        for (DormitoryInfo dormitoryInfo : dormitoryInfos) {
+            counts += dormitoryInfo.getDorStatistics();
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count", counts);
+        return ResponseResult.success(jsonObject);
     }
 
 

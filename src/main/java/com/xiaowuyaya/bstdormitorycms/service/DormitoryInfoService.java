@@ -12,7 +12,7 @@ public interface DormitoryInfoService {
      * @param limit
      * @return
      */
-    ResponseResult getDormitoryInfoListPage(Integer pages, Integer limit);
+    ResponseResult getDormitoryInfoListPage(Integer pages, Integer limit, Integer universityId);
 
     ResponseResult getDormitoryInfoByBuildingNoAndFloor(String buildingNo, Integer floorNo);
 
@@ -24,6 +24,8 @@ public interface DormitoryInfoService {
 
     ResponseResult createDormitoryInfo(DormitoryInfo dormitoryInfo);
 
-    ResponseResult getDormitoryStatistics(Integer pages, Integer limit);
+    ResponseResult getDormitoryStatistics(Integer pages, Integer limit,Integer universityId);
+
+    ResponseResult getInputFormCount(Integer buidingFormNum, Integer floor);
 
 }

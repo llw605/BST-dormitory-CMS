@@ -67,6 +67,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public ResponseResult addUser(User user) {
         user.setCreateTime(new Date(System.currentTimeMillis()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         int insert = userMapper.insert(user);
         if (insert != 1){
             return ResponseResult.fail("添加失败");
@@ -96,7 +97,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_name", user.getUserName());
         User temp = userMapper.selectOne(queryWrapper);
-        temp.setPassword(user.getPassword());
+        temp.setPassword(passwordEncoder.encode(user.getPassword()));
         int i = userMapper.updateById(temp);
         if (i != 1){
             return ResponseResult.fail("更新失败");

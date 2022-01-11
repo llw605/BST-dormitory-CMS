@@ -19,8 +19,8 @@ public class DormitoryController {
 
 
     @GetMapping("/fetchList")
-    public ResponseResult getDormitoryInfoListPage(Integer page, Integer limit){
-        return dormitoryInfoService.getDormitoryInfoListPage(page, limit);
+    public ResponseResult getDormitoryInfoListPage(Integer page, Integer limit,Integer universityId){
+        return dormitoryInfoService.getDormitoryInfoListPage(page, limit,universityId);
     }
 
     @GetMapping("/getDormitoryInfoByBuildingNoAndFloor")
@@ -45,13 +45,18 @@ public class DormitoryController {
     }
 
     @GetMapping("/getDormitoryStatistics")
-    public ResponseResult getDormitoryStatistics(Integer page, Integer limit){
-        return dormitoryInfoService.getDormitoryStatistics(page,limit);
+    public ResponseResult getDormitoryStatistics(Integer page, Integer limit,Integer universityId){
+        return dormitoryInfoService.getDormitoryStatistics(page,limit,universityId);
     }
 
     @GetMapping("/getDormitoryStatisticsByBuildingNoAndFloor")
     public ResponseResult getDormitoryStatisticsByBuildingNoAndFloor(String  buildingNo, Integer floor){
         return dormitoryInfoService.getDormitoryStatisticsByBuildingNoAndFloor(buildingNo, floor);
+    }
+
+    @GetMapping("/getInputFormCount")
+    public ResponseResult getInputFormCount(Integer buidingFormNum, Integer floor) {
+        return dormitoryInfoService.getInputFormCount(buidingFormNum, floor);
     }
 
 }

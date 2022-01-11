@@ -11,7 +11,7 @@
     <groupId>com.xiaowuyaya</groupId>
     <artifactId>BST-dormitory-CMS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>BST-dormitory-CMS</name>
     <description>BST-dormitory-CMS</description>
     <properties>
@@ -81,6 +81,23 @@
             <version>0.9.0</version>
         </dependency>
 
+        <!-- aop 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -89,6 +106,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <executable>true</executable>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

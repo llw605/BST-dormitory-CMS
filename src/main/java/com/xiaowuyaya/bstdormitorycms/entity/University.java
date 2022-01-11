@@ -24,5 +24,7 @@ public class University{
      */
     private String universityName;
 
+    private String role;
+
 }
 
