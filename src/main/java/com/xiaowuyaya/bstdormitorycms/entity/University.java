@@ -1,6 +1,7 @@
 package com.xiaowuyaya.bstdormitorycms.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class University{
     /**
      * 大学id
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer universityId;
     /**
      * 大学名称

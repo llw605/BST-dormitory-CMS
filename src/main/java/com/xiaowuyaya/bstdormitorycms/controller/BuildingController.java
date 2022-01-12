@@ -1,11 +1,14 @@
 package com.xiaowuyaya.bstdormitorycms.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.xiaowuyaya.bstdormitorycms.service.BuildingService;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Building (控制器)
@@ -28,5 +31,20 @@ public class BuildingController {
         return buildingService.getBuildingsByUniversityIdAndName(universityId, name);
     }
 
+    @GetMapping("/getBuildingList")
+    public ResponseResult getBuildingList(Integer page, Integer limit, Integer universityId){
+        return buildingService.getBuildingList(page,limit,universityId);
+    }
+
+    @GetMapping("/deleteAllBuildings")
+    public ResponseResult deleteAllBuildings(Integer universityId){
+        return buildingService.deleteAllBuildings(universityId);
+    }
+
+    @PostMapping("/saveBuildingList")
+    public ResponseResult saveBuildingList(@RequestBody JSONObject excelTableData){
+//        System.out.println(excelTableData);
+        return buildingService.saveBuildingList(excelTableData);
+    }
 
 }
