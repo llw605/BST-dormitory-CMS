@@ -1,5 +1,6 @@
 package com.xiaowuyaya.bstdormitorycms.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -176,8 +177,10 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
             return ResponseResult.fail(String.valueOf(i));
         }
 
-        //TODO: 提交成功需要生成兑奖码返回
-        return ResponseResult.success(UUID.randomUUID());
+        //TODO: 兑奖的实际业务应该怎么实现
+        // 生成0000-9999兑奖码
+        int randomNum = new Random().nextInt(9000) + 1000;
+        return ResponseResult.success(randomNum);
     }
 
     @Override
@@ -250,6 +253,31 @@ public class DormitoryInfoServiceImpl implements DormitoryInfoService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("count", counts);
         return ResponseResult.success(jsonObject);
+    }
+
+    @Override
+    public ResponseResult saveDormitoryList(JSONObject excelTableData) {
+        JSONArray arr = excelTableData.getJSONArray("excelTableData");
+
+        try{
+            arr.forEach( o ->{
+                JSONObject json = (JSONObject) o;
+                Integer buildingId = (Integer) json.get("buildingId");
+                String floor = (String) json.get("floor");
+                Integer roomNo = (Integer) json.get("roomNo");
+
+                DormitoryInfo dormitoryInfo = new DormitoryInfo();
+                dormitoryInfo.setBuildingId(buildingId);
+                dormitoryInfo.setFloor(floor);
+                dormitoryInfo.setRoomNo(roomNo);
+
+                dormitoryInfoMapper.insert(dormitoryInfo);
+            });
+        }catch (Exception e){
+            return ResponseResult.fail("fail");
+        }
+
+        return ResponseResult.success("success");
     }
 
 

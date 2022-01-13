@@ -2,6 +2,7 @@ package com.xiaowuyaya.bstdormitorycms.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xiaowuyaya.bstdormitorycms.entity.Building;
 import com.xiaowuyaya.bstdormitorycms.service.BuildingService;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,15 @@ public class BuildingController {
 
     @PostMapping("/saveBuildingList")
     public ResponseResult saveBuildingList(@RequestBody JSONObject excelTableData){
-//        System.out.println(excelTableData);
         return buildingService.saveBuildingList(excelTableData);
     }
+
+
+    @PostMapping("/updateBuilding")
+    public ResponseResult updateBuilding(@RequestBody Building building){
+        return buildingService.updateBuilding(building);
+    }
+
+
 
 }

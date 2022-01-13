@@ -1,5 +1,6 @@
 package com.xiaowuyaya.bstdormitorycms.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xiaowuyaya.bstdormitorycms.entity.DormitoryInfo;
 import com.xiaowuyaya.bstdormitorycms.service.DormitoryInfoService;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
@@ -57,6 +58,11 @@ public class DormitoryController {
     @GetMapping("/getInputFormCount")
     public ResponseResult getInputFormCount(Integer buidingFormNum, Integer floor) {
         return dormitoryInfoService.getInputFormCount(buidingFormNum, floor);
+    }
+
+    @PostMapping("/saveDormitoryList")
+    public ResponseResult saveDormitoryList(@RequestBody JSONObject excelTableData){
+        return dormitoryInfoService.saveDormitoryList(excelTableData);
     }
 
 }

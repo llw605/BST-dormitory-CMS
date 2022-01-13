@@ -80,13 +80,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseResult getInfo(String token) {
-        String username;
+        String username = "undefind";
 
         try {
             Claims claims = JwtUtil.parseJWT(token);
             username = (String) JSONObject.parseObject(claims.getSubject()).get("username");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("非法token",e);
             return ResponseResult.fail("非法token");
         }
 
@@ -102,12 +102,6 @@ public class AuthServiceImpl implements AuthService {
         List<String> roles = new ArrayList<>();
         roles.add(userRoleMapper.selectOne(new QueryWrapper<UserRole>().eq("id",user.getUserRole())).getRole());
         jsonObject.put("roles", roles);
-
-        // 路由
-        /**
-         * 接下来即将是一段非常长的代码，主要都是在进行JSON的格式化处理，后期有机会修改的时候再来修改。
-         */
-
 
         return ResponseResult.success(jsonObject);
 

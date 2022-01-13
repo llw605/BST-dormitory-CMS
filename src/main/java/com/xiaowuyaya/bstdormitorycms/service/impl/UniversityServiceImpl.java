@@ -36,6 +36,12 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
+    public ResponseResult getUniversityById(Integer id) {
+        University university = universityMapper.selectById(id);
+        return ResponseResult.success(university);
+    }
+
+    @Override
     public ResponseResult addUniversity(University university) {
         int insert = universityMapper.insert(university);
         if (insert != 1){

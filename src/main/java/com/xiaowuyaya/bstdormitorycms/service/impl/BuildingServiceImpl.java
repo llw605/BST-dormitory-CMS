@@ -12,6 +12,7 @@ import com.xiaowuyaya.bstdormitorycms.mapper.BuildingMapper;
 import com.xiaowuyaya.bstdormitorycms.mapper.UniversityMapper;
 import com.xiaowuyaya.bstdormitorycms.service.BuildingService;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
@@ -63,6 +65,7 @@ public class BuildingServiceImpl implements BuildingService {
             json.put("buildingId",record.getBuildingId());
             json.put("universityName",university.getUniversityName());
             json.put("buildingName",record.getBuildingName());
+            json.put("floor",record.getFloor());
             array.add(json);
 
         }
@@ -94,10 +97,12 @@ public class BuildingServiceImpl implements BuildingService {
                 JSONObject json = (JSONObject) o;
                 Integer universityId = (Integer) json.get("universityId");
                 String buildingName = (String) json.get("buildingName");
+                Integer floor = (Integer) json.get("floor");
 
                 Building building = new Building();
                 building.setUniversityId(universityId);
                 building.setBuildingName(buildingName);
+                building.setFloor(floor);
 
                 buildingMapper.insert(building);
             });
@@ -107,4 +112,18 @@ public class BuildingServiceImpl implements BuildingService {
 
         return ResponseResult.success("success");
     }
+
+    @Override
+    public ResponseResult updateBuilding(Building building) {
+        try{
+            buildingMapper.updateById(building);
+            return ResponseResult.success("success");
+        }catch (Exception e){
+            log.error("fail",e);
+            return ResponseResult.fail("fail");
+        }
+
+    }
+
+
 }

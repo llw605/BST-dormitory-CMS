@@ -30,6 +30,11 @@ public class Building { ;
      */
     private String buildingName;
 
+    /**
+     * 楼层
+     */
+    private Integer floor;
+
 
 }
 

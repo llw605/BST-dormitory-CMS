@@ -3,6 +3,7 @@ package com.xiaowuyaya.bstdormitorycms.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xiaowuyaya.bstdormitorycms.entity.Building;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 
 public interface BuildingService {
@@ -16,4 +17,8 @@ public interface BuildingService {
     ResponseResult deleteAllBuildings(Integer universityId);
 
     ResponseResult saveBuildingList(JSONObject excelTableData);
+
+    ResponseResult updateBuilding(Building building);
+
+//    ResponseResult getFloorByBuildingId(Integer id);
 }

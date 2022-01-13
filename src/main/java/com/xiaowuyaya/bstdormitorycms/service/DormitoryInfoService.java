@@ -1,5 +1,6 @@
 package com.xiaowuyaya.bstdormitorycms.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xiaowuyaya.bstdormitorycms.entity.DormitoryInfo;
 import com.xiaowuyaya.bstdormitorycms.util.ResponseResult;
 
@@ -27,5 +28,7 @@ public interface DormitoryInfoService {
     ResponseResult getDormitoryStatistics(Integer pages, Integer limit,Integer universityId);
 
     ResponseResult getInputFormCount(Integer buidingFormNum, Integer floor);
+
+    ResponseResult saveDormitoryList(JSONObject excelTableData);
 
 }

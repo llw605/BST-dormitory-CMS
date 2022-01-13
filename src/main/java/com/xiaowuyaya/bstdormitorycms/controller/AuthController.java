@@ -24,7 +24,7 @@ public class AuthController {
     }
 
     @GetMapping("/getInfo")
-    public ResponseResult getInfo(@RequestHeader("token") String token){
+    public ResponseResult getInfo(String token){
         return authService.getInfo(token);
     }
 }

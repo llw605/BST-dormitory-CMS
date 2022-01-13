@@ -42,6 +42,11 @@ public class UniversityController {
         return universityService.deleteUniversity(universityId);
     }
 
+    @GetMapping("/getUniversityById")
+    public ResponseResult getUniversityById(Integer universityId){
+        return universityService.getUniversityById(universityId);
+    }
+
 
 
 }

@@ -9,6 +9,8 @@ public interface UniversityService {
 
      ResponseResult getUniversityList();
 
+     ResponseResult getUniversityById(Integer id);
+
      ResponseResult addUniversity(University university);
 
      ResponseResult UpdateUniversityById(University university);
